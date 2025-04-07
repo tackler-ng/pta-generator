@@ -2,5 +2,5 @@
 
 ## Design
 
-See [Design Documentation](./docs/desing.adoc) under docs folder.
+See [Design Documentation](./docs/design.adoc) under docs folder.
 
