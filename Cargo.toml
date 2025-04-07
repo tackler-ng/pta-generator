@@ -1,0 +1,11 @@
+[package]
+name = "pta-generator"
+version = "0.0.1"
+edition = "2024"
+license = "Apache-2.0"
+repository = "https://github.com/tackler-ng/pta-generator"
+keywords = [ "accounting", "testing" ]
+include = [ "src/**/*.rs", "README.md", "build.rs", "NOTICE" ]
+rust-version = "1.85.0"
+
+[dependencies]
