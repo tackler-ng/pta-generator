@@ -1,3 +1,6 @@
 # Generator for PTA testing
 
-WIP
+## Design
+
+See [Design Documentation](./docs/desing.adoc) under docs folder.
+

@@ -1,0 +1,187 @@
+= Design Documentation
+
+== Test Data Description
+
+Used test sets (small and big) are:
+
+* 1E3 (1 000) transactions
+* 1E4 (10 000) transactions
+* 1E5 (100 000) transactions
+* 1E6 (1 000 000) transactions
+
+
+=== Chart of Accounts for perf tests
+
+Chart of Accounts has 378 entries and it is generated based on txn's dates:
+
+For "assets" following structure is used `a:ay<year>:am<month>`.
+
+This yields to 12 different accounts:
+
+ ...
+ "a:ay2016:am01",
+ "a:ay2016:am02",
+ "a:ay2016:am03",
+ ...
+
+
+For "expenses" following structure is used `e:ey<year>:em<month>:ed<day>`.
+
+This yields to 366 different accounts:
+
+ ...
+ "e:ey2016:em01:ed01",
+ "e:ey2016:em01:ed02",
+ "e:ey2016:em01:ed03",
+ ...
+
+=== Examples of Test Transactions
+
+.mode=tackler
+[source,text]
+----
+2016-01-01T00:05:16Z (#0000001) '1E5 txn-1
+ # uuid: 36d5de34-4436-3dc8-b5e5-3076d9c0ff58
+ e:ey2016:em01:ed01 1.0000001
+ a:ay2016:am01
+
+2016-12-31T17:46:40Z (#0100000) '1E5 txn-100000
+ # uuid: 5fa139d9-12a8-31fb-9eb7-571aa25cb48c
+ e:ey2016:em12:ed31 31.0000001
+ a:ay2016:am12
+----
+
+.mode=ledger
+[source,text]
+----
+2016/01/01 (#0000001) 1E5 txn-1
+ ; uuid: 36d5de34-4436-3dc8-b5e5-3076d9c0ff58
+ e:ey2016:em01:ed01 1.0000001
+ a:ay2016:am01
+
+2016/12/31 (#0100000) 1E5 txn-100000
+ ; uuid: 5fa139d9-12a8-31fb-9eb7-571aa25cb48c
+ e:ey2016:em12:ed31 31.0000001
+ a:ay2016:am12
+----
+
+== Journal
+
+=== Single file mode
+
+The transactions are stored in single file (one journal).
+
+=== Sharded txn-file mode
+
+Each transaction is located on own file, and sharding of transactions is based on txn dates,
+e.g. one transaction would be  `txns-1E6/YYYY/MM/DD/YYYYMMDDTHHMMSS-idx.txn`,
+where `idx` is index of txn for txns-1E6 test set.
+
+The journal is top level directory of shard tree, e.g. `txns-1E6` in above example.
+
+
+== Old Generator tool
+
+.Old generator code (Scala)
+[source,scala]
+----
+/*
+ * Copyright 2016-2018 E257.FI
+ * SPDX-License-Identifier: Apache-2.0
+ */
+object Generator {
+  val SET_NAME_PREFIX: String = "txns"
+
+  def nameUUID(name: String): String = {
+    // no real RFC-4122 namespace, this is ok for this purpose
+    UUID.nameUUIDFromBytes(name.getBytes("UTF-8")).toString
+  }
+
+  def run(args: Array[String]): Unit = {
+
+    val cliCfg = new GeneratorCLIArgs(args)
+
+    val countStr = cliCfg.count.getOrElse("none")
+    val count =   countStr match {
+      case "1E1" => 10
+      case "1E2" => 100
+      case "1E3" => 1000
+      case "1E4" => 10000
+      case "1E5" => 100000
+      case "1E6" => 1000000
+      case _ => throw new RuntimeException("Unknown count, should be [1E1, 1E2, 1E3, 1E4, 1E5, 1E6] it was: " + countStr)
+    }
+
+
+    val basedir = cliCfg.basedir.getOrElse("./data")
+    val txnsDir = File(basedir, s"txns-$countStr" )
+
+    val startTS = ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZoneId.of("Z"))
+    val endTS = ZonedDateTime.of(2016, 12, 31, 23, 59, 59, 0, ZoneId.of("Z"))
+    val duration = Duration.between(startTS, endTS)
+    val step = duration.getSeconds / count
+
+    if (cliCfg.single_file.getOrElse(false)) {
+      File(basedir).createDirectories()
+      val txnFile = File(basedir, SET_NAME_PREFIX + "-" + countStr + ".txn")
+      txnFile.createIfNotExists().overwrite("")
+    }
+
+    val accounts: Seq[List[String]] = for (i <- 1 to count) yield {
+      val ts = startTS.plusSeconds(i * step)
+      val y = ts.getYear
+      val m = ts.getMonthValue
+      val d = ts.getDayOfMonth
+
+      val assetsAcc = "a:ay%04d:am%02d".format(y, m)
+      val expensesAcc = "e:ey%04d:em%02d:ed%02d".format(y, m, d)
+
+      val compatStr = if (cliCfg.compatible.getOrElse(false)) {
+        (ts.format(DateTimeFormatter.ofPattern("yyyy'/'MM'/'dd")), "  ")
+      } else {
+        (ts.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME), " ")
+      }
+
+      compatStr match {
+        case (tsStr, valSpace) =>
+
+          val code = s"(#%07d)".format(i)
+          val txn = tsStr + " " + code + " '" + countStr + s" txn-%d".format(i) + "\n" +
+            (if (cliCfg.compatible.getOrElse(false)) {
+              ""
+            } else {
+              // Generate UUID so that each set has own predictable set of UUIDs.
+              // e.g. uuid differs between sets (1E2 vs. 1E3) for txn-1, txn-2 etc.
+              " # uuid: " + nameUUID(countStr + code) + "\n"
+            }) +
+            s""" $expensesAcc$valSpace$d.0000001
+               | $assetsAcc
+               |
+               |""".stripMargin
+
+          if (cliCfg.single_file.getOrElse(false)) {
+            val txnFile = File(basedir, SET_NAME_PREFIX + "-" + countStr + ".txn")
+            txnFile.append(txn)
+          } else {
+            val txnName = ts.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss")) + s"-$i.txn"
+            val txnShardDir = txnsDir / "%04d/%02d/%02d".format(y, m, d)
+            val txnFile = txnShardDir / txnName
+
+            txnShardDir.createDirectories()
+            txnFile.createIfNotExists().overwrite(txn)
+          }
+
+          List(expensesAcc, assetsAcc)
+      }
+    }
+
+    val coaConf = accounts.flatten.sorted.distinct.mkString(
+        "accounts {\n\n  permit-empty-commodity = true\n\n  coa = [\n    \"",
+        "\",\n    \"",
+        "\"\n  ]\n}\n")
+
+    val coaFile = File(basedir, s"$SET_NAME_PREFIX-$countStr-accounts.conf")
+    coaFile.overwrite(coaConf)
+  }
+----
+
