@@ -101,7 +101,7 @@ tackler --config data/audit/set-1e4-month.toml --input.storage git
 
 This will produce following report:
 
-````bash
+````text
 Git Storage
          commit : bd3baa9204607d8ef556dcd480ff10703ccfc168
       reference : main
