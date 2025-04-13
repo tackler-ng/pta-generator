@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "pta-generator"
-version = "25.4.1"
+version = "25.4.2-dev"
 dependencies = [
  "clap",
  "jiff",

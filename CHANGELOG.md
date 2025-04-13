@@ -2,15 +2,32 @@
 
 ## Releases
 
+### PTA-Generator release XX.YY.Z
+
+#### New Features
+
+* ...
+
+#### Changed Functionality
+
+* ...
+
+#### Fixes
+
+* ...
+
+
+***
+
 ### PTA-Generator release 25.04.1
 
-#### New features and changes
+#### New Features
 
-Initial release, with support:
+This is initial release, with features:
 
 * Support for following PTA tools
   * [tackler](https://tackler.e257.fi/)
-  * [ledger]([https://ledger-cli.org/)
+  * [ledger](https://ledger-cli.org/)
   * [hledger](https://hledger.org/)
   * [beancount](https://beancount.github.io/)
 * Three major modes: 
