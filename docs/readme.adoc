@@ -1,0 +1,32 @@
+= Developer Documentation
+
+== Design Document
+
+See xref:design.adoc[Desing Document] for internal design and pointers for pta-generator
+
+
+== Working with code base
+
+Just install link:https://github.com/casey/just[just], and see available helpers:
+
+----
+just
+----
+
+== Contributing changes
+
+If you are planning major changes or new feature, please open a new issue or discussion topic first on
+https://github.com/tackler-ng/pta-generator[Github].
+
+Before submitting pull request, please make sure that minimal lints and unit tests pass:
+
+----
+just check
+just unit-test
+----
+
+If possible, also run:
+
+----
+just integration-test
+----

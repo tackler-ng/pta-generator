@@ -2,15 +2,17 @@
 
 == Test Data Description
 
-Used test sets (small and big) are:
+Generated test sets are:
 
-* 1E3 (1 000) transactions
-* 1E4 (10 000) transactions
-* 1E5 (100 000) transactions
-* 1E6 (1 000 000) transactions
+* 1e1 (10) transactions
+* 1e2 (100) transactions
+* 1e3 (1 000) transactions
+* 1e4 (10 000) transactions
+* 1e5 (100 000) transactions
+* 1e6 (1 000 000) transactions
 
 
-=== Chart of Accounts for perf tests
+=== Chart of Accounts
 
 Chart of Accounts has 378 entries and it is generated based on txn's dates:
 
@@ -35,153 +37,147 @@ This yields to 366 different accounts:
  "e:ey2016:em01:ed03",
  ...
 
+The Chart of Accounts is 378 accounts in total.
+
+==== Commodity mode
+
+In `comm` mode the top level accounts `a` and `e` are replaced with `Assets` and `Expenses`, and the first letters of sub-accounts are capitalized. This is done to be as close to beancount as possible.
+
+=== Chart of Commodities
+
+Commodity is selected from this table of 31 commodities
+
+[source,rust]
+----
+        "CAA", "CAB", "CAC", "CAD", "CAE",
+        "CBA", "CBB", "CBC", "CBD", "CBE",
+        "CCA", "CCB", "CCC", "CCD", "CCE",
+        "CDA", "CDB", "CDC", "CDD", "CDE",
+        "CEA", "CEB", "CEC", "CED", "CEE",
+        "CFA", "CFB", "CFC", "CFD", "CFE",
+        "EUR"
+----
+
+based on transaction dates.
+
 === Examples of Test Transactions
 
-.mode=tackler
+==== Plain Journal
+
+.plain, flavor=tackler
+----
+2024-01-01 (#0000001) '1E5 txn-1
+e:ey2024:em01:ed01  1.0000001
+a:ay2024:am01
+
+2024-01-01 (#0000002) '1E5 txn-2
+e:ey2024:em01:ed01  1.0000001
+a:ay2024:am01
+----
+
+.plain, flavor=ledger
 [source,text]
 ----
-2016-01-01T00:05:16Z (#0000001) '1E5 txn-1
- # uuid: 36d5de34-4436-3dc8-b5e5-3076d9c0ff58
- e:ey2016:em01:ed01 1.0000001
- a:ay2016:am01
+2024/01/01 (#0000001) 1E5 txn-1
+  e:ey2024:em01:ed01  1.0000001
+  a:ay2024:am01
 
-2016-12-31T17:46:40Z (#0100000) '1E5 txn-100000
- # uuid: 5fa139d9-12a8-31fb-9eb7-571aa25cb48c
- e:ey2016:em12:ed31 31.0000001
- a:ay2016:am12
+2024/01/01 (#0000002) 1E5 txn-2
+  e:ey2024:em01:ed01  1.0000001
+  a:ay2024:am01
 ----
 
-.mode=ledger
+==== Journal with Commodities
+
+.comm, flavor=tackler
+----
+2024-01-01 (#0000001) '1E1 txn-1
+  Expenses:Ey2024:Em01:Ed01  1.0000001 CAA
+  Assets:Ay2024:Am01
+
+2024-02-06 (#0000002) '1E1 txn-2
+  Expenses:Ey2024:Em02:Ed06  6.0000001 CBA
+  Assets:Ay2024:Am02
+----
+
+.comm, flavor=ledger
+----
+include ../conf/accounts.ledger
+
+2024/01/01 (#0000001) 1E1 txn-1
+  Expenses:Ey2024:Em01:Ed01  1.0000001 CAA
+  Assets:Ay2024:Am01
+
+2024/02/06 (#0000002) 1E1 txn-2
+  Expenses:Ey2024:Em02:Ed06  6.0000001 CBA
+  Assets:Ay2024:Am02
+----
+
+.comm, flavor=beancount
+----
+include "../conf/accounts.beancount"
+
+2024-01-01 * "(#0000001) 1E1 txn-1"
+  Expenses:Ey2024:Em01:Ed01  1.0000001 CAA
+  Assets:Ay2024:Am01
+
+2024-02-06 * "(#0000002) 1E1 txn-2"
+  Expenses:Ey2024:Em02:Ed06  6.0000001 CBA
+  Assets:Ay2024:Am02
+----
+
+==== Test Data for Tackler's Audit Mode
+
+.audit, flavor=tackler
 [source,text]
 ----
-2016/01/01 (#0000001) 1E5 txn-1
- ; uuid: 36d5de34-4436-3dc8-b5e5-3076d9c0ff58
- e:ey2016:em01:ed01 1.0000001
- a:ay2016:am01
+2024-01-01T00:00:00+00:00 (#0000001) '1E1 txn-1
+  # uuid: 73fce96a-a16a-51e2-9948-ec9c51a80ff4
+  e:ey2024:em01:ed01  1.0000001
+  a:ay2024:am01
 
-2016/12/31 (#0100000) 1E5 txn-100000
- ; uuid: 5fa139d9-12a8-31fb-9eb7-571aa25cb48c
- e:ey2016:em12:ed31 31.0000001
- a:ay2016:am12
+2024-02-06T14:24:00+00:00 (#0000002) '1E1 txn-2
+  # uuid: fb4be4b6-2e2d-5af2-bb84-68c5ba8b52d5
+  e:ey2024:em02:ed06  6.0000001
+  a:ay2024:am02
 ----
+
 
 == Journal
 
-=== Single file mode
+=== Single File Mode
 
 The transactions are stored in single file (one journal).
 
-=== Sharded txn-file mode
+=== Shard by Month
+
+Transactions are sharded based on txn dates, so that each journal contains one month data
+`set-1e5-month/txns/YYYY-MM.txn`.
+
+The journal is the top of shard tree, e.g. `set-1e5-month/txns` in above example.
+
+
+=== Shard by TXN
 
 Each transaction is located on own file, and sharding of transactions is based on txn dates,
-e.g. one transaction would be  `txns-1E6/YYYY/MM/DD/YYYYMMDDTHHMMSS-idx.txn`,
-where `idx` is index of txn for txns-1E6 test set.
+e.g. one transaction would be  `set-1e6-txn/txns/YYYY/MM/DD/YYYYMMDDTHHMMSS-idx.txn`,
+where `idx` is index of txn for txns-1e6 test set.
 
-The journal is top level directory of shard tree, e.g. `txns-1E6` in above example.
-
-
-== Old Generator tool
-
-.Old generator code (Scala)
-[source,scala]
-----
-/*
- * Copyright 2016-2018 E257.FI
- * SPDX-License-Identifier: Apache-2.0
- */
-object Generator {
-  val SET_NAME_PREFIX: String = "txns"
-
-  def nameUUID(name: String): String = {
-    // no real RFC-4122 namespace, this is ok for this purpose
-    UUID.nameUUIDFromBytes(name.getBytes("UTF-8")).toString
-  }
-
-  def run(args: Array[String]): Unit = {
-
-    val cliCfg = new GeneratorCLIArgs(args)
-
-    val countStr = cliCfg.count.getOrElse("none")
-    val count =   countStr match {
-      case "1E1" => 10
-      case "1E2" => 100
-      case "1E3" => 1000
-      case "1E4" => 10000
-      case "1E5" => 100000
-      case "1E6" => 1000000
-      case _ => throw new RuntimeException("Unknown count, should be [1E1, 1E2, 1E3, 1E4, 1E5, 1E6] it was: " + countStr)
-    }
+The journal is the top of shard tree, e.g. `set-1e6-txn/txns` in above example.
 
 
-    val basedir = cliCfg.basedir.getOrElse("./data")
-    val txnsDir = File(basedir, s"txns-$countStr" )
+=== Audit Mode: txn UUID
 
-    val startTS = ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZoneId.of("Z"))
-    val endTS = ZonedDateTime.of(2016, 12, 31, 23, 59, 59, 0, ZoneId.of("Z"))
-    val duration = Duration.between(startTS, endTS)
-    val step = duration.getSeconds / count
+Some integration tests need a stable set of unique txn UUIDs
+This test tool will generate these kind of UUIDs.
+In real life use, just normal random UUID is suitable for txn uuid.
 
-    if (cliCfg.single_file.getOrElse(false)) {
-      File(basedir).createDirectories()
-      val txnFile = File(basedir, SET_NAME_PREFIX + "-" + countStr + ".txn")
-      txnFile.createIfNotExists().overwrite("")
-    }
+The UUID is V5 with URL namespace and the used url is:
+`pta-generator:/<set>/<number>/<ts>[/<spec>]`
+where `ts` is timestamp in RFC 3339 format,
+and `spec` is free, optional specifier, e.g. `audit`.
 
-    val accounts: Seq[List[String]] = for (i <- 1 to count) yield {
-      val ts = startTS.plusSeconds(i * step)
-      val y = ts.getYear
-      val m = ts.getMonthValue
-      val d = ts.getDayOfMonth
 
-      val assetsAcc = "a:ay%04d:am%02d".format(y, m)
-      val expensesAcc = "e:ey%04d:em%02d:ed%02d".format(y, m, d)
+== Extending With New Journal Types
 
-      val compatStr = if (cliCfg.compatible.getOrElse(false)) {
-        (ts.format(DateTimeFormatter.ofPattern("yyyy'/'MM'/'dd")), "  ")
-      } else {
-        (ts.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME), " ")
-      }
-
-      compatStr match {
-        case (tsStr, valSpace) =>
-
-          val code = s"(#%07d)".format(i)
-          val txn = tsStr + " " + code + " '" + countStr + s" txn-%d".format(i) + "\n" +
-            (if (cliCfg.compatible.getOrElse(false)) {
-              ""
-            } else {
-              // Generate UUID so that each set has own predictable set of UUIDs.
-              // e.g. uuid differs between sets (1E2 vs. 1E3) for txn-1, txn-2 etc.
-              " # uuid: " + nameUUID(countStr + code) + "\n"
-            }) +
-            s""" $expensesAcc$valSpace$d.0000001
-               | $assetsAcc
-               |
-               |""".stripMargin
-
-          if (cliCfg.single_file.getOrElse(false)) {
-            val txnFile = File(basedir, SET_NAME_PREFIX + "-" + countStr + ".txn")
-            txnFile.append(txn)
-          } else {
-            val txnName = ts.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss")) + s"-$i.txn"
-            val txnShardDir = txnsDir / "%04d/%02d/%02d".format(y, m, d)
-            val txnFile = txnShardDir / txnName
-
-            txnShardDir.createDirectories()
-            txnFile.createIfNotExists().overwrite(txn)
-          }
-
-          List(expensesAcc, assetsAcc)
-      }
-    }
-
-    val coaConf = accounts.flatten.sorted.distinct.mkString(
-        "accounts {\n\n  permit-empty-commodity = true\n\n  coa = [\n    \"",
-        "\",\n    \"",
-        "\"\n  ]\n}\n")
-
-    val coaFile = File(basedir, s"$SET_NAME_PREFIX-$countStr-accounts.conf")
-    coaFile.overwrite(coaConf)
-  }
-----
-
+See `generators.rs` Traits, `commands::comm.rs` and `commands::plain.rs` as an example how to extend the pta-generator with new journal type generator or journal type (e.g. `complex`).

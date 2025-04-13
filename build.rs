@@ -1,5 +1,5 @@
 /*
- * Tackler-NG 2022-2024
+ * PTA-Generator 2025
  * SPDX-License-Identifier: Apache-2.0
  */
 use std::env;

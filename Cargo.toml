@@ -1,12 +1,15 @@
 [package]
 name = "pta-generator"
-description = "Testing tool for PTA applications"
-version = "0.0.1"
+description = "Test data generator for PTA applications"
+version = "25.4.1-dev"
 edition = "2024"
 license = "Apache-2.0"
 repository = "https://github.com/tackler-ng/pta-generator"
-keywords = [ "accounting", "testing" ]
-include = [ "src/**/*.rs", "README.md", "build.rs", "NOTICE" ]
+keywords = [ "accounting", "plaintext", "testing" ]
+include = [ "src/**/*.rs", "README.md", "build.rs", "LICENSE", "NOTICE" ]
 rust-version = "1.85.0"
 
 [dependencies]
+clap = { version = "4.5.35", features = ["derive"] }
+jiff = "0.2.6"
+uuid = { version = "1.16.0", features = [ "v5" ] }
