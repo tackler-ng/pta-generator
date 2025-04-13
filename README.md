@@ -1,3 +1,9 @@
+[![Build Status](https://github.com/tackler-ng/pta-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/tackler-ng/pta-generator/actions)
+[![Github Releases](https://img.shields.io/github/v/release/tackler-ng/pta-generator?include_prereleases&color=%230868da)](https://github.com/tackler-ng/pta-generator/releases)
+[![Crates.io Version](https://img.shields.io/crates/v/pta-generator)](https://crates.io/crates/pta-generator)
+[![GitHub Discussions](https://img.shields.io/github/discussions/tackler-ng/pta-generator)](https://github.com/tackler-ng/pta-generator/discussions)
+[![Matrix](https://img.shields.io/matrix/tackler%3Amatrix.org)](https://matrix.to/#/#tackler:matrix.org)
+
 # Test Data Generator for Plain Text Accounting
 
 PTA-Generator generates [plain text accounting](https://plaintextaccounting.org/) data sets 
