@@ -1,4 +1,4 @@
-# Contributing to PTA-Generator
+# Contributing Guidelines
 
 Contributors are very welcome! No contribution is too small and all contributions are valued.
 
@@ -9,7 +9,7 @@ Issues, or discussions), you license that Content under the Project License,
 and you agree that you have the right to license that Content under the Project License.
 
 
-## Contributing Guides
+## Developer Documentation
 
 For actual contributing guides and development documentation, see
 [Developer Documentation](./docs/readme.adoc)

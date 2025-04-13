@@ -10,7 +10,7 @@ Currently it has following features:
 
 * Support for following PTA tools
     * [tackler](https://tackler.e257.fi/)
-    * [ledger]([https://ledger-cli.org/)
+    * [ledger](https://ledger-cli.org/)
     * [hledger](https://hledger.org/)
     * [beancount](https://beancount.github.io/)
 * Three major modes:
@@ -156,7 +156,20 @@ Full documentation how to install the tools can be found here:
 
 ## Design
 
-See [Design Documentation](./docs/design.adoc) under docs folder.
+See [Design Documentation](./docs/design.adoc) for high level description of PTA-Generator
+and possible extension points.
+
+
+## Contributing
+
+See [Contributing Guidelines](./CONTRIBUTING.md) and [Developer Documention](./docs/readme.adoc)
+how to work with the PTA-Generator project.
+
+
+## Security
+
+See [Security Policy](./SECURITY.md) how to report security findings.
+
 
 ## License
 
