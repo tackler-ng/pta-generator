@@ -106,7 +106,7 @@ impl TryFrom<&str> for SetSize {
             Self::SZ1E5 => Ok(SetSize::Sz1e5),
             Self::SZ1E6 => Ok(SetSize::Sz1e6),
             _ => Err(format!(
-                "Unknown set size: {}, supported sizes are (1E1, 1E2, ...):\n{}\n{}\n{}\n{}\n{}\n{}",
+                "Unknown set size: {}, supported sizes are (1e1, 1e2, ...):\n{}\n{}\n{}\n{}\n{}\n{}",
                 value,
                 SetSize::Sz1e1, SetSize::Sz1e2, SetSize::Sz1e3, SetSize::Sz1e4, SetSize::Sz1e5, SetSize::Sz1e6,
             ).into()),
