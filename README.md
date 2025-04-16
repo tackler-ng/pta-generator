@@ -33,6 +33,7 @@ Currently it has following features:
         * Tools: tackler
     * `txn`: Shard by transaction (each txn is in own file)
         * Tools: tackler
+* Journal sizes from 10 (1e1) to 1_000_000 (1e6) transactions
 
 
 ## Usage
@@ -158,6 +159,12 @@ Full documentation how to install the tools can be found here:
 * Ledger: [Download](https://ledger-cli.org/download.html)
 * HLedger: [Install](https://hledger.org/install.html)
 * Beancount: [Installing Beancount](https://beancount.github.io/docs/installing_beancount.html)
+
+
+## Simple Performance Test Setup
+
+See [Just file](./benchmark/justfile) under results for simple performance test setup
+(time, memory, CPU) usage of various PTA tools.
 
 
 ## Design
