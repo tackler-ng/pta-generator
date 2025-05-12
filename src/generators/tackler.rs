@@ -174,8 +174,8 @@ timestamp = {{ default-time = 00:00:00, timezone = {{ name = "UTC" }} }}
 
 [kernel.input]
 storage = "fs"
-fs  = {{ path = "{txn_set_dir}",      dir = "txns", suffix = "txn" }}
-git = {{ repo = "{txn_set_dir}/.git", dir = "txns", suffix = "txn", ref = "main" }}
+fs  = {{ path = "{txn_set_dir}",      dir = "txns", ext = "txn" }}
+git = {{ repo = "{txn_set_dir}/.git", dir = "txns", ext = "txn", ref = "main" }}
 
 [transaction]
 accounts    = {{ path = "{accounts_toml}" }}

@@ -175,8 +175,11 @@ mod tests {
         // Test for ShardType::Month
         let mut writer_month = JournalWriter::try_new(JournalFlavor::Tackler, base_path, SetSize::Sz1e5, ShardType::Month).unwrap(/*:test:*/);
         let (dir_month, path_month) = writer_month.setup.journal_path(&ts, 0);
-        assert_eq!(dir_month, base_path.join("set-1e5-month/txns"));
-        assert_eq!(path_month, base_path.join("set-1e5-month/txns/2025-04.txn"));
+        assert_eq!(dir_month, base_path.join("set-1e5-month/txns/2025/04"));
+        assert_eq!(
+            path_month,
+            base_path.join("set-1e5-month/txns/2025/04/2025-04.txn")
+        );
 
         // Test for ShardType::Txn
         let mut writer_txn = JournalWriter::try_new(JournalFlavor::Tackler, base_path, SetSize::Sz1e6, ShardType::Txn).unwrap(/*:test:*/);

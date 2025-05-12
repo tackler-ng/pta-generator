@@ -107,7 +107,7 @@ pub(crate) struct GlobalArgs {
     ///           path(h/ledger):  'PATH/set-SET-single/txns/SET.journal
     ///           path(beancount): 'PATH/set-SET-single/txns/SET.beancount
     /// - month:  Use 12 sub journals (shards) based on month of txn
-    ///           path: 'PATH/set-SET-month/txns/YYYY-MM.txn
+    ///           path: 'PATH/set-SET-month/txns/YYYY/MM/YYYY-MM.txn
     /// - txn:    Use own file for each transaction, shard is based on txn timestamp
     ///           path: 'PATH/set-SET-txn/txns/YYYY/MM/DD/YYYYMMDDTHHMMSS-IDX.txn'
     #[arg(long, verbatim_doc_comment,

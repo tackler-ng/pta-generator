@@ -258,7 +258,7 @@ impl JournalSetup {
     /// - beancount: path/set-1e3-single/txns/1e3.beancount
     ///
     /// `ShardType::Month`
-    /// - tackler: path/set-1e3-month/txns/YYYY-MM.txn
+    /// - tackler: path/set-1e3-month/txns/YYYY/MM/YYYY-MM.txn
     /// - ledger: Not supported
     /// - beancount: Not supported
     ///
@@ -284,9 +284,10 @@ impl JournalSetup {
                 let y = ts.year();
                 let m = ts.month();
 
+                let dir = format!("txns/{}/{:0>2}", y, m);
                 let journal = format!("{}-{:0>2}.txn", y, m);
 
-                let txn_dir = self.txn_set_path().join("txns");
+                let txn_dir = self.txn_set_path().join(dir.as_str());
                 let txn_path = txn_dir.join(journal.as_str());
 
                 (txn_dir, txn_path)
