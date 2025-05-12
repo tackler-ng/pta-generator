@@ -2,19 +2,19 @@
 
 ## Releases
 
-### PTA-Generator release XX.YY.Z
+### PTA-Generator release 25.05.1
 
 #### New Features
 
-* ...
+* None
 
 #### Changed Functionality
 
-* ...
+* Make proper shard structure with `month`
 
 #### Fixes
 
-* ...
+* None
 
 
 ***
