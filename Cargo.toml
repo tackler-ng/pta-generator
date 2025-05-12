@@ -1,7 +1,7 @@
 [package]
 name = "pta-generator"
 description = "Test data generator for PTA applications"
-version = "25.5.1"
+version = "25.5.2-dev"
 edition = "2024"
 license = "Apache-2.0"
 repository = "https://github.com/tackler-ng/pta-generator"

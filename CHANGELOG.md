@@ -2,6 +2,23 @@
 
 ## Releases
 
+### PTA-Generator release XX.YY.Z
+
+#### New Features
+
+* ...
+
+#### Changed Functionality
+
+* ...
+
+#### Fixes
+
+* ...
+
+
+***
+
 ### PTA-Generator release 25.05.1
 
 #### New Features
