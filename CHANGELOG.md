@@ -2,19 +2,19 @@
 
 ## Releases
 
-### PTA-Generator release XX.YY.Z
+### PTA-Generator release 26.02.1
 
 #### New Features
 
-* ...
+* justfile: support for rustledger (beancount)
 
 #### Changed Functionality
 
-* ...
+* None
 
 #### Fixes
 
-* ...
+* None
 
 
 ***
