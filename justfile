@@ -101,6 +101,7 @@ _it-comm:
     @echo "###"
 
     {{time}} tackler --config {{data_path}}/comm/set-1e4-single.toml > /dev/null
+    {{time}} rledger report    {{data_path}}/comm/set-1e4-single/txns/1e4.beancount balances > /dev/null
     {{time}} ledger        -f {{data_path}}/comm/set-1e4-single/txns/1e4.journal bal >/dev/null
     {{time}} hledger       -f {{data_path}}/comm/set-1e4-single/txns/1e4.journal bal >/dev/null
     {{time}} bean-query       {{data_path}}/comm/set-1e4-single/txns/1e4.beancount  'balances from year = 2024' >/dev/null

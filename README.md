@@ -19,9 +19,10 @@ Currently it has following features:
     * [ledger](https://ledger-cli.org/)
     * [hledger](https://hledger.org/)
     * [beancount](https://beancount.github.io/)
+    * [rustledger](https://github.com/rustledger/rustledger)
 * Three major modes:
     * `comm`: Journal with commodities
-        * Tools: tackler, (h)ledger, beancount
+        * Tools: tackler, (h)ledger, beancount, rustledger
     * `plain`: The simplest journal
         * Tools: tackler, (h)ledger
     * `audit`: Journal with transaction audit data
@@ -72,6 +73,7 @@ pta-generator comm --path data --set-size 1e4 --shard-type single --flavor beanc
 tackler    --config data/comm/set-1e4-single.toml
 ledger -no-pager -f data/comm/set-1e4-single/txns/1e4.journal bal
 hledger          -f data/comm/set-1e4-single/txns/1e4.journal bal
+rledger    report   data/comm/set-1e4-single/txns/1e4.beancount balances
 bean-query          data/comm/set-1e4-single/txns/1e4.beancount 'balances from year = 2024'
 ````
 
@@ -159,6 +161,7 @@ Full documentation how to install the tools can be found here:
 * Ledger: [Download](https://ledger-cli.org/download.html)
 * HLedger: [Install](https://hledger.org/install.html)
 * Beancount: [Installing Beancount](https://beancount.github.io/docs/installing_beancount.html)
+* RustLedger: [Install](https://github.com/rustledger/rustledger/blob/main/README.md#install)
 
 
 ## Simple Performance Test Setup
