@@ -67,12 +67,12 @@ based on transaction dates.
 .plain, flavor=tackler
 ----
 2024-01-01 (#0000001) '1E5 txn-1
-e:ey2024:em01:ed01  1.0000001
-a:ay2024:am01
+  e:ey2024:em01:ed01  1.0000001
+  a:ay2024:am01
 
 2024-01-01 (#0000002) '1E5 txn-2
-e:ey2024:em01:ed01  1.0000001
-a:ay2024:am01
+  e:ey2024:em01:ed01  1.0000001
+  a:ay2024:am01
 ----
 
 .plain, flavor=ledger
