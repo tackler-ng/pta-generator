@@ -16,6 +16,9 @@
 
 * ...
 
+#### Development
+
+Bumbed MSRV to 1.92.0
 
 ***
 
