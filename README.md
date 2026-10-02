@@ -13,7 +13,17 @@ It creates journals with or without commodities and journals with audit data for
 PTA-Generator can also crete journals of different sizes, and it also supports different journal storing strategies.
 
 
-## Quickstart (Benchmarks)
+## Quickstart for Benchmarks
+
+You will need at least [tackler](https://tackler.e257.fi/) to run benchmarks.
+
+This command will install or update it:
+
+````bash
+cargo install --locked tackler
+````
+
+Then proceed with benchmarks:
 
 ````bash
 git clone https://github.com/tackler-ng/pta-generator
@@ -29,7 +39,7 @@ just bench 1e5
 
 ## Features
 
-Currently it has following features:
+Currently pta-generator has following features:
 
 * Support for following PTA tools
     * [tackler](https://tackler.e257.fi/)
