@@ -12,6 +12,23 @@ PTA-Generator generates [plain text accounting](https://plaintextaccounting.org/
 It creates journals with or without commodities and journals with audit data for [tackler](https://tackler.e257.fi/). 
 PTA-Generator can also crete journals of different sizes, and it also supports different journal storing strategies.
 
+
+## Quickstart (Benchmarks)
+
+````bash
+git clone https://github.com/tackler-ng/pta-generator
+
+cd pta-generator
+just install
+
+cd benchmark
+just generate 1e5
+just bench 1e5
+````
+
+
+## Features
+
 Currently it has following features:
 
 * Support for following PTA tools

@@ -47,12 +47,12 @@ bench SET_SIZE:
         {{tackler}} --config "{{data_path}}/comm/set-{{SET_SIZE}}-single.toml" > /dev/null
     @echo
 
-    tool={{ledger}}; {{time_var}} \
-        {{ledger}}        -f "{{data_path}}/comm/set-{{SET_SIZE}}-single/txns/{{SET_SIZE}}.journal" bal >/dev/null
-    @echo
-
     tool={{rustledger}}; {{time_var}} \
         {{rustledger}} 'report' "{{data_path}}/comm/set-{{SET_SIZE}}-single/txns/{{SET_SIZE}}.beancount"  'balances' >/dev/null
+    @echo
+
+    tool={{ledger}}; {{time_var}} \
+        {{ledger}}        -f "{{data_path}}/comm/set-{{SET_SIZE}}-single/txns/{{SET_SIZE}}.journal" bal >/dev/null
     @echo
 
     tool={{hledger}}; {{time_var}} \

@@ -21,7 +21,7 @@ alias it := integration-test
 alias db := debug-build
 alias rb := release-build
 
-# Clean the workspace (cargo)
+# Clean workspace (cargo)
 clean:
     cargo clean
 
@@ -106,16 +106,23 @@ _it-comm:
     {{time}} hledger       -f {{data_path}}/comm/set-1e4-single/txns/1e4.journal bal >/dev/null
     {{time}} bean-query       {{data_path}}/comm/set-1e4-single/txns/1e4.beancount  'balances from year = 2024' >/dev/null
 
-# Build the debug target
+# Build debug target
 debug-build:
     cargo build --bin pta-generator
 
-# Build the release target
+# Build release target
 release-build:
     cargo build --release --bin pta-generator
 
 
-# Run the pta-generator in release mode by cargo
+# Run pta-generator in release mode by cargo
 run *ARGS:
     cargo run --release -- {{ ARGS }}
 
+# Install pta-generator
+install:
+    cargo install --locked --path .
+
+# Uninstall pta-generator
+uninstall:
+    cargo uninstall pta-generator
