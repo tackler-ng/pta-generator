@@ -19,9 +19,11 @@ for [tackler](https://tackler.e257.fi/).
 
 ## Quickstart for Benchmarks
 
-You will need at least [tackler](https://tackler.e257.fi/) to run benchmarks.
+You will need at least [tackler](https://tackler.e257.fi/) to run benchmarks,
+and Rust toolchain to compile pta-generator. If you don't have it installed,
+get it [from here](https://www.rust-lang.org/tools/install).
 
-This command will install or update it:
+This command will install or update tackler:
 
 ````bash
 cargo install --locked tackler
