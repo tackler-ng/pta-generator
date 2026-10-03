@@ -9,8 +9,12 @@
 PTA-Generator generates [plain text accounting](https://plaintextaccounting.org/) data sets 
 ("journals") for test and demo usage.
 
-It creates journals with or without commodities and journals with audit data for [tackler](https://tackler.e257.fi/). 
-PTA-Generator can also crete journals of different sizes, and it also supports different journal storing strategies.
+It supports different PTA tools, and it can crete journals of different sizes,
+with different journal storing strategies.
+
+It can create journals with or without commodities,
+and also journals with [audit support](https://tackler.fi/docs/tackler/latest/auditing/)
+for [tackler](https://tackler.e257.fi/).
 
 
 ## Quickstart for Benchmarks

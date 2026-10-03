@@ -2,23 +2,15 @@
 
 ## Releases
 
-### PTA-Generator release XX.YY.Z
-
-#### New Features
-
-* ...
-
-#### Changed Functionality
-
-* ...
-
-#### Fixes
-
-* ...
+### PTA-Generator release 26.10.1
 
 #### Development
 
 Bumbed MSRV to 1.92.0
+
+Updated dependecies:
+
+* uuid: 1.27.0
 
 ***
 
